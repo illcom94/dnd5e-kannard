@@ -1,0 +1,60 @@
+{
+    "name": "dnd5e-kannard",
+    "title": "D&D 5E Enhancements",
+    "description": "Enhancing 5E for better automation.",
+    "author": "Michael Kannard",
+    "version": "0.0.1", 
+    "minimumCoreVersion": "0.7.9", 
+    "compatibleCoreVersion": "0.7.9", 
+    "packs": 
+    [
+    	{
+            "entity": "Macro",            
+            "label": "Animated Spell Macros",
+            "name": "macros",
+            "path": "packs/macros.db",
+            "module": "dnd5e-kannard"
+        },
+        {
+      		"name": "playlists",
+      		"label": "Automated Playlists",
+      		"path": "packs/playlists.db",
+      		"entity": "Playlist",
+      		"module": "dnd5e-kannard"
+    	},
+    	{
+    		"name": "spells",
+      		"label": "Automated Spells",
+      		"path": "packs/spells.db",
+      		"entity": "Item",
+      		"module": "dnd5e-kannard"
+    	}
+    ],
+    "dependencies": 
+    [
+        {
+            "name": "dnd5e",
+            "type": "system"
+        }, 
+        {
+        	"name": "lib-wrapper", 
+        	"type": "module"
+        }, 
+        {
+        	"name": "midi-qol", 
+        	"type": "module"
+        }, 
+        {
+        	"name": "JB2A_DnD5e", 
+        	"type": "module"
+        }, 
+        {
+        	"name": "furnace", 
+        	"type": "module"
+        }
+    ],
+    "esmodules": 
+    [
+        "/scripts/main.js"
+    ]
+}
