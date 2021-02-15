@@ -51,6 +51,10 @@
         {
         	"name": "furnace", 
         	"type": "module"
+        }, 
+        {
+        	"name": "combat-utility-belt", 
+        	"type": "module"
         }
     ],
     "esmodules": 
