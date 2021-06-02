@@ -3,7 +3,7 @@
     "title": "D&D 5E Enhancements",
     "description": "Enhancing 5E for better automation.",
     "author": "Michael Kannard",
-    "version": "0.0.1", 
+    "version": "0.0.2", 
     "minimumCoreVersion": "0.7.9", 
     "compatibleCoreVersion": "0.7.9", 
     "packs": 
@@ -60,5 +60,8 @@
     "esmodules": 
     [
         "/scripts/main.js"
-    ]
+    ], 
+    "url": "https://github.com/illcom94/dnd5e-kannard/",
+    "manifest": "https://github.com/illcom94/dnd5e-kannard/releases/latest/download/module.json",
+    "download": "https://github.com/illcom94/dnd5e-kannard/releases/latest/download/dnd5e-kannard.zip"
 }
