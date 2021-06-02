@@ -9,30 +9,6 @@ Hooks.once("setup", () => {
     setupActorClass();
     setupItemClass();
     
-    Hooks.on("midi-qol.preDamageRollComplete", async (workflow) => {
-    	if (workflow.item.name == "Magic Missile") {
-			let defaultDamageType = workflow.item.data.data.damage?.parts[0][1] || workflow.defaultDamageType;
-			let damageDetail = createDamageList(workflow.damageRoll, workflow.item, workflow.defaultDamageType);
-			let dmgTotal = 0;
-			for (let d of damageDetail) {
-				dmgTotal += d.damage;
-			}
-			workflow.damageRoll = new Roll("0");
-			for (let t of game.user.targets) { 
-				if (game.cub.hasCondition("Magic Missile", t))
-    				await game.cub.removeCondition("Magic Missile", t);
-    			for (let mm = 0; mm < t.mmCount; mm++) {
-    				let dmg = await applyTokenDamage(damageDetail, dmgTotal, [t], workflow.item, new Set());
-    				await t.actor.applyDamage(dmg[0].hpDamage, 1);
-    				let messageContent = `<hr><div style="color: black; font-size: 1em;">${t.name} takes ${dmg[0].hpDamage} from ${workflow.item.name}.</div><hr>`;
-    				ChatMessage.create({content: messageContent});
-    			}
-    			t.mmCount = 0;
-    		}
-    	}
-    	
-    });
-    
     Hooks.on("midi-qol.AttackRollComplete", async (workflow) => {
     	for (let t of workflow.hitTargets) {
     		let a = t?.actor;
@@ -79,104 +55,12 @@ function setupActorClass() {
 function setupItemClass() {
     libWrapper.register("dnd5e-kannard", "CONFIG.Item.entityClass.prototype.rollDamage", 
     async function(wrapped, args = {}) //{ event = null, spellLevel = null, versatile = null } = {}) 
-    { 
-    	if (this.data.name == "Magic Missile") {
-    		let missileCount = 2;
-    		if (args.spellLevel != null && args.spellLevel > 0) {
-				missileCount += args.spellLevel;
-			} else {
-				missileCount += itemData.level;
-			}
-			
-			let targets = Array.from(game.user.targets);
-			if (targets.length == 1) {
-				targets[0].mmCount = missileCount;
-			}
-			else 
-			{
-				let mmDiag = new Dialog({
-    				title: "Magic Missle Target", 
-   		 			missileCount: missileCount, 
-    				missilesLeft: missileCount,
-    				content: `Magic Missles: ${missileCount}`, 
-    				buttons: {
-    					reset: {
-    						label: "Reset", 
-    						callback: () => {
-    							mmDiag.data.missilesLeft = mmDiag.data.missileCount;
-    							mmDiag.data.content = `Magic Missles: ${mmDiag.data.missileCount}`;
-    							for (let t of game.user.targets) { 
-    								let button = mmDiag.data.buttons[t.id];
-    								if (button.mmCount > 0)
-	    								game.cub.removeCondition("Magic Missile", t);
-    								button.mmCount = 0;
-    								button.label = `${button.token.name}: ${button.mmCount}`;
-    							}
-    							mmDiag.render(true);
-    						}
-    					},
-    					done: {
-    						label: "Done",
-    						callback: () => {
-    							if (mmDiag.missilesLeft > 0) 
-    								mmDiag.render(true);
-    							else {
-    								for (let t of game.user.targets) { 
-    									let button = mmDiag.data.buttons[t.id];
-    									t.mmCount = button.mmCount;
-    								}
-    							}
-    						}
-    					}
-    				}
-    			});
-    			
-    			for (let t of game.user.targets) {
-   		 			mmDiag.data.buttons[t.id] = { label: t.name, mmCount: 0, token: t, 
-    				callback: () => 
-    				{ 
-    					if (mmDiag.data.missilesLeft > 0) {
-   		 					mmDiag.data.missilesLeft--;
-    						let button = mmDiag.data.buttons[t.id];
-    						mmDiag.data.content = `Magic Missles: ${mmDiag.data.missilesLeft}`;
-    						button.mmCount++;
-    						button.label = `${t.name}: ${button.mmCount}`;
-    						game.cub.addCondition("Magic Missile", button.token, { allowDuplicates: true }); 
-    					}
-    					mmDiag.render(true);
-    				}};
-    			}
-    			mmDiag.render(true);
-			}
-    	}
-    	
+    {     	
 	    let addedHex = false;
     	let itemData = this.data.data;
     	//let oldDamage = itemData.damage.parts[0][0];
  	    let partCount = itemData.damage.parts.length;
-    	if (this.data.type === "spell" && itemData.level > 0 && this.isHealing) { 
-    	    if (itemData.damage.parts[partCount - 1].length == 3 && itemData.damage.parts[partCount - 1][2] == "DOL") {
-    	    	itemData.damage.parts.pop();
-    	    }
-    		// this is a healing spell. check if they are a life cleric
-			let dol = this.actor.items.filter(i => i.name == 'Disciple of Life');
-
-			if (dol.length > 0 ) {
-				let dolBonus = 2;
-				if (args.spellLevel != null && args.spellLevel > 0) {
-					dolBonus += args.spellLevel;
-				} else {
-					dolBonus += itemData.level;
-				}
-				itemData.damage.parts.push([`${dolBonus}`, "healing", "DOL"]);
-			}
-    	}
-    	else if (this.hasAttack) {
-    		if (this.name == "Eldritch Blast" && this.actor.items.filter(i => i.name == "Eldritch Invocations: Agonizing Blast").length > 0) {
-    			if (itemData.damage.parts[0].length < 3) {
-					itemData.damage.parts[0] = [itemData.damage.parts[0][0] + " + " + this.actor.data.data.abilities.cha.mod.toString(), itemData.damage.parts[0][1], "Agonizing Blast"];
-    			}
-    		}
+    	if (this.hasAttack) {
     		// warlock hex
     		for (let t of game.user.targets) {
     			let a = t?.actor;
