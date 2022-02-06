@@ -1,67 +1,73 @@
 {
-    "name": "dnd5e-kannard",
-    "title": "D&D 5E Enhancements",
-    "description": "Enhancing 5E for better automation.",
-    "author": "Michael Kannard",
-    "version": "0.0.2", 
-    "minimumCoreVersion": "0.7.9", 
-    "compatibleCoreVersion": "0.7.9", 
-    "packs": 
-    [
-    	{
-            "entity": "Macro",            
-            "label": "Animated Spell Macros",
-            "name": "macros",
-            "path": "packs/macros.db",
-            "module": "dnd5e-kannard"
-        },
-        {
-      		"name": "playlists",
-      		"label": "Automated Playlists",
-      		"path": "packs/playlists.db",
-      		"entity": "Playlist",
-      		"module": "dnd5e-kannard"
-    	},
-    	{
-    		"name": "spells",
-      		"label": "Automated Spells",
-      		"path": "packs/spells.db",
-      		"entity": "Item",
-      		"module": "dnd5e-kannard"
-    	}
-    ],
-    "dependencies": 
-    [
-        {
-            "name": "dnd5e",
-            "type": "system"
-        }, 
-        {
-        	"name": "lib-wrapper", 
-        	"type": "module"
-        }, 
-        {
-        	"name": "midi-qol", 
-        	"type": "module"
-        }, 
-        {
-        	"name": "JB2A_DnD5e", 
-        	"type": "module"
-        }, 
-        {
-        	"name": "furnace", 
-        	"type": "module"
-        }, 
-        {
-        	"name": "combat-utility-belt", 
-        	"type": "module"
-        }
-    ],
-    "esmodules": 
-    [
-        "/scripts/main.js"
-    ], 
-    "url": "https://github.com/illcom94/dnd5e-kannard/",
-    "manifest": "https://github.com/illcom94/dnd5e-kannard/releases/latest/download/module.json",
-    "download": "https://github.com/illcom94/dnd5e-kannard/releases/latest/download/dnd5e-kannard.zip"
+  "name": "dnd5e-kannard",
+  "title": "D&D 5E Enhancements",
+  "description": "Enhancing 5E for better automation.",
+  "author": "Michael Kannard",
+  "authors": [],
+  "url": "https://github.com/illcom94/dnd5e-kannard/",
+  "flags": {},
+  "version": "0.0.3",
+  "minimumCoreVersion": "9",
+  "compatibleCoreVersion": "9",
+  "scripts": [],
+  "esmodules": [
+    "/scripts/main.js"
+  ],
+  "styles": [],
+  "languages": [],
+  "packs": [
+    {
+      "entity": "Macro",
+      "label": "Animated Spell Macros",
+      "name": "macros",
+      "path": "packs/macros.db",
+      "module": "dnd5e-kannard",
+      "private": false
+    },
+    {
+      "name": "playlists",
+      "label": "Automated Playlists",
+      "path": "packs/playlists.db",
+      "entity": "Playlist",
+      "module": "dnd5e-kannard",
+      "private": false
+    },
+    {
+      "name": "spells",
+      "label": "Automated Spells",
+      "path": "packs/spells.db",
+      "entity": "Item",
+      "module": "dnd5e-kannard",
+      "private": false
+    }
+  ],
+  "system": [],
+  "dependencies": [
+    {
+      "name": "dnd5e",
+      "type": "system"
+    },
+    {
+      "name": "lib-wrapper",
+      "type": "module"
+    },
+    {
+      "name": "midi-qol",
+      "type": "module"
+    },
+    {
+      "name": "furnace",
+      "type": "module"
+    },
+    {
+      "name": "combat-utility-belt",
+      "type": "module"
+    }
+  ],
+  "socket": false,
+  "manifest": "https://github.com/illcom94/dnd5e-kannard/releases/latest/download/module.json",
+  "download": "https://github.com/illcom94/dnd5e-kannard/releases/latest/download/dnd5e-kannard.zip",
+  "protected": false,
+  "coreTranslation": false,
+  "library": false
 }
